@@ -15,22 +15,26 @@
 				<h2 class="mdl-card__title-text">Regiser</h2>
 			</div>
 	  	<div class="mdl-card__supporting-text">
-				<form action="#">
+				<form method="post">
 				    <div class="mdl-textfield mdl-js-textfield">
-						<input class="mdl-textfield__input" type="text" id="name" />
+						<input class="mdl-textfield__input" type="text" pattern="[A-Z,a-z,0-9]+" id="name" />
 						<label class="mdl-textfield__label" for="name">Name</label>
+                        <span class="mdl-textfield__error">Only alphanumeric characters and no spaces.</span>
 					</div>
 					<div class="mdl-textfield mdl-js-textfield">
-						<input class="mdl-textfield__input" type="text" id="email" />
+						<input class="mdl-textfield__input" type="text" pattern="[^@]+@[^@]+\.[a-zA-Z]{2,6}"id="email" />
 						<label class="mdl-textfield__label" for="email">Email</label>
+                        <span class="mdl-textfield__error">Enter a valid Email.</span>
 					</div>
 					<div class="mdl-textfield mdl-js-textfield">
-						<input class="mdl-textfield__input" type="text" id="phone" />
+						<input class="mdl-textfield__input" type="text" pattern="\d{3}[\-]\d{3}[\-]\d{4}" id="phone" />
 						<label class="mdl-textfield__label" for="phone">Phone</label>
+                        <span class="mdl-textfield__error">XXX-XXX-XXXX format only.</span>
 					</div>
 					<div class="mdl-textfield mdl-js-textfield">
-						<input class="mdl-textfield__input" type="password" id="userpass" />
+						<input class="mdl-textfield__input" type="password" pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" id="userpass" />
 						<label class="mdl-textfield__label" for="userpass">Password</label>
+                        <span class="mdl-textfield__error">UpperCase, LowerCase, Number/SpecialChar and min 8 Characters.</span>
 					</div>
 					<div class="mdl-textfield mdl-js-textfield">
 						<input class="mdl-textfield__input" type="password" id="cnfuserpass" />
@@ -41,6 +45,14 @@
 			<div class="mdl-card__actions mdl-card--border">
 				<button class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect", id="submitRegistration">Register</button>
 			</div>
+            <div class="messageArea">
+                <div class="alert-box error">
+                    {{error}}
+                </div>
+                <div class="aler-box success">
+                    {{success}}
+                </div>
+            </div>
 		</div>
 	</main>
 </div>
