@@ -43,9 +43,12 @@ router.get('/logout', function(req, res) {
 });
 
 router.get('/groups',function(req, res, next) {
+    // Get the user from session data.  This is authenticated from /login
     user = req.session.passport.user;
     console.log("At route /groups: ", user)
+    // If there is a user, grab appropriate data.
     if(user){
+        // Get Account model from DB.
         Account.findOne({username: user}, function(err, user){
             if(err || !user){
                 console.log("Error in route /groups:  DB Error");
@@ -53,11 +56,13 @@ router.get('/groups',function(req, res, next) {
             }
             else{
                 console.log("At route /groups.  User Found");
+                // Pass in data to jade template
                 res.render('groups', user);
             }
 
         });
     }
+    // There is no user authenticated.  Send them to login.
     else{
         res.redirect('/login');
     }
