@@ -16,6 +16,9 @@ $(document).ready(function(){
     };
 
     $('#submitRegistration').click(function(){
+        $(".messageArea").empty();
+        $(".error").empty();
+        $(".success").empty();
         var pw1, pw2;
         pw1 = $('#userpass').val();
         pw2 = $('#cnfuserpass').val();
@@ -45,9 +48,8 @@ $(document).ready(function(){
         }
         else{
             console.log("Password matching error");
-            $(".messageArea").hide();
+            $(".messageArea").show();
             $(".error").append('Retype Passwords.');
-            $(".error").addClass('alert-box error');
         }
     });
 

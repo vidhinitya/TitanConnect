@@ -1,49 +1,49 @@
 var express = require('express');
+var passport = require('passport');
+var Account = require('../models/account');
 var router = express.Router();
-var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/TitanConnect');
-var User = require("../models/user").User;
-var Group = require("../models/group").Group;
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('TChome');
+
+router.get('/', function (req, res) {
+    res.render('index', { user : req.user });
 });
 
-router.get('/register/', function(req, res, next) {
-  res.render('register');
+router.get('/register', function(req, res) {
+    res.render('register', { });
 });
 
-router.post('/register/', function(req, res, next) {
-    if (validName(name) & validEmail(email)){
-        var user = new User({
-            userName: req.body.name,
-            email: req.body.email,
-            firstName: "N/A",
-            lastName: "N/A",
-            phone: req.body.phone,
-            password: req.body.password,
+router.post('/register', function(req, res, next) {
+    Account.register(new Account({ username : req.body.username }), req.body.password, function(err, account) {
+        if (err) {
+          return res.render('register', { error : err.message });
+        }
+
+        passport.authenticate('local')(req, res, function () {
+            req.session.save(function (err) {
+                if (err) {
+                    return next(err);
+                }
+                res.redirect('/');
+            });
         });
-        user.save(function(err, user){
-            if(err){
-                console.log(err);
-                res.render('register', {error:"Database Error"});
-            }
-            else{
-                res.render('login', {success:"Account Created."});
-            }
-        });
-    }
-    else{
-        res.render('register', {error:"Username or Email already on system."})
-    }
+    });
 });
 
-router.get('/login/', function(req, res, next) {
-  res.render('login');
+router.get('/login', function(req, res) {
+    res.render('login', { user : req.user });
 });
 
-var validName = function(){ return true; };
-var validEmail = function(){ return true; };
+router.post('/login', passport.authenticate('local'), function(req, res) {
+    res.redirect('/');
+});
+
+router.get('/logout', function(req, res) {
+    req.logout();
+    res.redirect('/');
+});
+
+router.get('/ping', function(req, res){
+    res.status(200).send("pong!");
+});
 
 module.exports = router;
