@@ -30,7 +30,7 @@ router.post('/register', function(req, res, next) {
 });
 
 router.get('/login', function(req, res) {
-    res.render('login', { user : req.user });
+    res.render('login', { user : req.session.passport.user });
 });
 
 router.post('/login', passport.authenticate('local'), function(req, res) {
@@ -40,6 +40,31 @@ router.post('/login', passport.authenticate('local'), function(req, res) {
 router.get('/logout', function(req, res) {
     req.logout();
     res.redirect('/');
+});
+
+router.get('/groups',function(req, res, next) {
+    user = req.session.passport.user;
+    console.log("At route /groups: ", user)
+    if(user){
+        Account.findOne({username: user}, function(err, user){
+            if(err || !user){
+                console.log("Error in route /groups:  DB Error");
+                res.redirect('/login');
+            }
+            else{
+                console.log("At route /groups.  User Found");
+                res.render('groups', user);
+            }
+
+        });
+    }
+    else{
+        res.redirect('/login');
+    }
+});
+
+router.get('/inbox', passport.authenticate('local'), function(req, res) {
+    res.json({message: "In Development"})
 });
 
 router.get('/ping', function(req, res){
