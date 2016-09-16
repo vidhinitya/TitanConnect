@@ -72,6 +72,30 @@ router.get('/inbox', passport.authenticate('local'), function(req, res) {
     res.json({message: "In Development"})
 });
 
+router.get('/userprofile',function(req,res){
+  user = req.session.passport.user;
+  // If there is a user, grab appropriate data.
+  if(user){
+      // Get Account model from DB.
+      Account.findOne({username: user}, function(err, user){
+          if(err || !user){
+              console.log("Error in route /userprofile:  DB Error");
+              res.redirect('/login');
+          }
+          else{
+              console.log("At route /userprofile.  User Found");
+              // Pass in data to jade template
+              res.render('userprofile', user);
+          }
+
+      });
+  }
+  // There is no user authenticated.  Send them to login.
+  else{
+      res.redirect('/login');
+  }
+});
+
 router.get('/ping', function(req, res){
     res.status(200).send("pong!");
 });
