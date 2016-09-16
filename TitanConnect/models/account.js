@@ -1,15 +1,11 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var passportLocalMongoose = require('passport-local-mongoose');
 
 var Account = new Schema({
-    username: String,
-    email: String,
+    username: { type: String, required: true, unique: true},
+    email: { type: String }, //, required: true},
     password: String,
-    belongsTo: [Schema.ObjectId],
-    profile: Schema.ObjectId
+    belongsTo: [{ type: Schema.ObjectId, default: []}],
 });
-
-Account.plugin(passportLocalMongoose);
 
 module.exports = mongoose.model('Account', Account);

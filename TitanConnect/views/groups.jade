@@ -1,9 +1,11 @@
 extends layout
 
 block content
-    h1 Groups for #{username}
-    if (belongsTo != '')
-        each group in belongsTo
+    h2 Groups for #{username}
+    if (groups)
+        each group in groups
             li= group
     else
         p No Groups!
+    p
+        a(href='/groups/create') Create New Group

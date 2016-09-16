@@ -6,9 +6,6 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
-
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
@@ -29,21 +26,14 @@ app.use(require('express-session')({
     resave: false,
     saveUninitialized: false
 }));
-app.use(passport.initialize());
-app.use(passport.session());
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use('/', routes);
 
-// passport config
-var Account = require('./models/account');
-passport.use(new LocalStrategy(Account.authenticate()));
-passport.serializeUser(Account.serializeUser());
-passport.deserializeUser(Account.deserializeUser());
-
 // mongoose
-mongoose.connect('mongodb://localhost/passport_local_mongoose_express4');
+mongoose.connect('mongodb://localhost/TitanConnect');
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -75,6 +65,5 @@ app.use(function(err, req, res, next) {
         error: {}
     });
 });
-
 
 module.exports = app;
