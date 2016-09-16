@@ -1,7 +1,8 @@
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
-var GroupsSchema = new mongoose.Schema({
-    groupName: { type: String, required: true},
+
+var Group = new Schema({
+    groupname: { type: String, required: true, unique: true},
     admin: mongoose.Schema.ObjectId,
     groupMembers: [ mongoose.Schema.ObjectId ],
     groupChat: [{
@@ -13,8 +14,4 @@ var GroupsSchema = new mongoose.Schema({
     groupCreatedDate: { type: Date, default: Date.now }
 });
 
-var Group = mongoose.model('Group', GroupsSchema);
-
-module.exports = {
-  Group: Group
-}
+module.exports = mongoose.model('Group', Group);
