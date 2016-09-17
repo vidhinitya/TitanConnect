@@ -1,12 +1,20 @@
-extends layout
 
-block content
-    h2 Login
-    h3 Let's Get To Work.
-    br
-    form(role='form', action="/login", method="post", style='max-width: 300px;')
-        .form-group
-            input.form-control(type='text', name="username", placeholder='Enter Username')
-        .form-group
-            input(type='password', name="password", placeholder='Password')
-        button(type='submit') Submit
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    title
+    link(rel='stylesheet', href='stylesheets/style.css')
+  body
+    #appTitle Titan Connect
+    form(role='form', action="/login", method="post")
+      header Login
+      label
+        | Username
+        span *
+      input.form-control(type='text', name="username", placeholder='Enter Username')
+      label
+        | Password
+        span *
+      input(type='password', name="password", placeholder='Password')
+      button(type='submit') Login
